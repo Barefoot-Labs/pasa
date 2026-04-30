@@ -8,7 +8,7 @@ export function FundaLogo({ light = false }: { light?: boolean }) {
         <GraduationCap className="size-5" strokeWidth={2.5} />
       </div>
       <span className={light ? "text-white" : "text-foreground"}>
-        Funda<span className="text-accent">.</span>
+        PASA<span className="text-accent">.</span>
       </span>
     </Link>
   );

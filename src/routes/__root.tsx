@@ -20,9 +20,9 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Funda — School Management for South Africa" },
-      { name: "description", content: "Funda connects parents, teachers and principals across South African schools. Marks, attendance, discipline and transfers — all in one place." },
-      { property: "og:title", content: "Funda — School Management for South Africa" },
+      { title: "PASA — Parent and School Alliance" },
+      { name: "description", content: "PASA (Parent and School Alliance) connects parents, teachers and principals across South African schools. Marks, attendance, discipline and transfers — all in one place." },
+      { property: "og:title", content: "PASA — Parent and School Alliance" },
       { property: "og:description", content: "One platform for parents and schools. Marks, attendance, discipline and more." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
