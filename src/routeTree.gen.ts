@@ -36,6 +36,9 @@ import { Route as AppAttendanceCaptureRouteImport } from './routes/app.attendanc
 import { Route as AppAttendanceRouteImport } from './routes/app.attendance'
 import { Route as AppAssistantRouteImport } from './routes/app.assistant'
 import { Route as AppAlertsRouteImport } from './routes/app.alerts'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminSchoolsRouteImport } from './routes/admin.schools'
+import { Route as AdminDistrictsRouteImport } from './routes/admin.districts'
 
 const SchoolsRoute = SchoolsRouteImport.update({
   id: '/schools',
@@ -172,6 +175,21 @@ const AppAlertsRoute = AppAlertsRouteImport.update({
   path: '/alerts',
   getParentRoute: () => AppRoute,
 } as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSchoolsRoute = AdminSchoolsRouteImport.update({
+  id: '/schools',
+  path: '/schools',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDistrictsRoute = AdminDistrictsRouteImport.update({
+  id: '/districts',
+  path: '/districts',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -181,6 +199,9 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/pricing': typeof PricingRoute
   '/schools': typeof SchoolsRouteWithChildren
+  '/admin/districts': typeof AdminDistrictsRoute
+  '/admin/schools': typeof AdminSchoolsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/app/alerts': typeof AppAlertsRoute
   '/app/assistant': typeof AppAssistantRoute
   '/app/attendance': typeof AppAttendanceRoute
@@ -208,6 +229,9 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/pricing': typeof PricingRoute
   '/schools': typeof SchoolsRouteWithChildren
+  '/admin/districts': typeof AdminDistrictsRoute
+  '/admin/schools': typeof AdminSchoolsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/app/alerts': typeof AppAlertsRoute
   '/app/assistant': typeof AppAssistantRoute
   '/app/attendance': typeof AppAttendanceRoute
@@ -238,6 +262,9 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/pricing': typeof PricingRoute
   '/schools': typeof SchoolsRouteWithChildren
+  '/admin/districts': typeof AdminDistrictsRoute
+  '/admin/schools': typeof AdminSchoolsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/app/alerts': typeof AppAlertsRoute
   '/app/assistant': typeof AppAssistantRoute
   '/app/attendance': typeof AppAttendanceRoute
@@ -269,6 +296,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/pricing'
     | '/schools'
+    | '/admin/districts'
+    | '/admin/schools'
+    | '/admin/users'
     | '/app/alerts'
     | '/app/assistant'
     | '/app/attendance'
@@ -296,6 +326,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/pricing'
     | '/schools'
+    | '/admin/districts'
+    | '/admin/schools'
+    | '/admin/users'
     | '/app/alerts'
     | '/app/assistant'
     | '/app/attendance'
@@ -325,6 +358,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/pricing'
     | '/schools'
+    | '/admin/districts'
+    | '/admin/schools'
+    | '/admin/users'
     | '/app/alerts'
     | '/app/assistant'
     | '/app/attendance'
@@ -549,14 +585,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAlertsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/schools': {
+      id: '/admin/schools'
+      path: '/schools'
+      fullPath: '/admin/schools'
+      preLoaderRoute: typeof AdminSchoolsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/districts': {
+      id: '/admin/districts'
+      path: '/districts'
+      fullPath: '/admin/districts'
+      preLoaderRoute: typeof AdminDistrictsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminDistrictsRoute: typeof AdminDistrictsRoute
+  AdminSchoolsRoute: typeof AdminSchoolsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminDistrictsRoute: AdminDistrictsRoute,
+  AdminSchoolsRoute: AdminSchoolsRoute,
+  AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
