@@ -259,6 +259,33 @@ export type Database = {
           },
         ]
       }
+      districts: {
+        Row: {
+          code: string | null
+          created_at: string
+          id: string
+          name: string
+          province: Database["public"]["Enums"]["sa_province"]
+          updated_at: string
+        }
+        Insert: {
+          code?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          province: Database["public"]["Enums"]["sa_province"]
+          updated_at?: string
+        }
+        Update: {
+          code?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          province?: Database["public"]["Enums"]["sa_province"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       grades: {
         Row: {
           id: number
@@ -504,6 +531,7 @@ export type Database = {
           created_at: string
           description: string | null
           district: string
+          district_id: string | null
           email: string | null
           emis_number: string
           established_year: number | null
@@ -529,6 +557,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           district: string
+          district_id?: string | null
           email?: string | null
           emis_number: string
           established_year?: number | null
@@ -554,6 +583,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           district?: string
+          district_id?: string | null
           email?: string | null
           emis_number?: string
           established_year?: number | null
@@ -573,7 +603,15 @@ export type Database = {
           updated_at?: string
           website?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "schools_district_id_fkey"
+            columns: ["district_id"]
+            isOneToOne: false
+            referencedRelation: "districts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       staff: {
         Row: {
@@ -751,6 +789,7 @@ export type Database = {
         Args: { _learner_id: string; _user_id: string }
         Returns: boolean
       }
+      is_super_admin: { Args: { _user_id: string }; Returns: boolean }
       learner_school_id: { Args: { _learner_id: string }; Returns: string }
       user_school_ids: { Args: { _user_id: string }; Returns: string[] }
     }
