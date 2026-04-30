@@ -16,6 +16,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SchoolsSchoolIdRouteImport } from './routes/schools.$schoolId'
+import { Route as AppAlertsRouteImport } from './routes/app.alerts'
 import { Route as AppUpgradeRouteImport } from './routes/_app.upgrade'
 import { Route as AppTransfersRouteImport } from './routes/_app.transfers'
 import { Route as AppStaffRouteImport } from './routes/_app.staff'
@@ -32,7 +33,6 @@ import { Route as AppAuditRouteImport } from './routes/_app.audit'
 import { Route as AppAttendanceCaptureRouteImport } from './routes/_app.attendance-capture'
 import { Route as AppAttendanceRouteImport } from './routes/_app.attendance'
 import { Route as AppAssistantRouteImport } from './routes/_app.assistant'
-import { Route as AppAlertsRouteImport } from './routes/_app.alerts'
 
 const SchoolsRoute = SchoolsRouteImport.update({
   id: '/schools',
@@ -67,6 +67,11 @@ const SchoolsSchoolIdRoute = SchoolsSchoolIdRouteImport.update({
   id: '/$schoolId',
   path: '/$schoolId',
   getParentRoute: () => SchoolsRoute,
+} as any)
+const AppAlertsRoute = AppAlertsRouteImport.update({
+  id: '/app/alerts',
+  path: '/app/alerts',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppUpgradeRoute = AppUpgradeRouteImport.update({
   id: '/upgrade',
@@ -148,11 +153,6 @@ const AppAssistantRoute = AppAssistantRouteImport.update({
   path: '/assistant',
   getParentRoute: () => AppRoute,
 } as any)
-const AppAlertsRoute = AppAlertsRouteImport.update({
-  id: '/alerts',
-  path: '/alerts',
-  getParentRoute: () => AppRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -160,7 +160,6 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/pricing': typeof PricingRoute
   '/schools': typeof SchoolsRouteWithChildren
-  '/alerts': typeof AppAlertsRoute
   '/assistant': typeof AppAssistantRoute
   '/attendance': typeof AppAttendanceRoute
   '/attendance-capture': typeof AppAttendanceCaptureRoute
@@ -177,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/staff': typeof AppStaffRoute
   '/transfers': typeof AppTransfersRoute
   '/upgrade': typeof AppUpgradeRoute
+  '/app/alerts': typeof AppAlertsRoute
   '/schools/$schoolId': typeof SchoolsSchoolIdRoute
 }
 export interface FileRoutesByTo {
@@ -185,7 +185,6 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/pricing': typeof PricingRoute
   '/schools': typeof SchoolsRouteWithChildren
-  '/alerts': typeof AppAlertsRoute
   '/assistant': typeof AppAssistantRoute
   '/attendance': typeof AppAttendanceRoute
   '/attendance-capture': typeof AppAttendanceCaptureRoute
@@ -202,6 +201,7 @@ export interface FileRoutesByTo {
   '/staff': typeof AppStaffRoute
   '/transfers': typeof AppTransfersRoute
   '/upgrade': typeof AppUpgradeRoute
+  '/app/alerts': typeof AppAlertsRoute
   '/schools/$schoolId': typeof SchoolsSchoolIdRoute
 }
 export interface FileRoutesById {
@@ -212,7 +212,6 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/pricing': typeof PricingRoute
   '/schools': typeof SchoolsRouteWithChildren
-  '/_app/alerts': typeof AppAlertsRoute
   '/_app/assistant': typeof AppAssistantRoute
   '/_app/attendance': typeof AppAttendanceRoute
   '/_app/attendance-capture': typeof AppAttendanceCaptureRoute
@@ -229,6 +228,7 @@ export interface FileRoutesById {
   '/_app/staff': typeof AppStaffRoute
   '/_app/transfers': typeof AppTransfersRoute
   '/_app/upgrade': typeof AppUpgradeRoute
+  '/app/alerts': typeof AppAlertsRoute
   '/schools/$schoolId': typeof SchoolsSchoolIdRoute
 }
 export interface FileRouteTypes {
@@ -239,7 +239,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/pricing'
     | '/schools'
-    | '/alerts'
     | '/assistant'
     | '/attendance'
     | '/attendance-capture'
@@ -256,6 +255,7 @@ export interface FileRouteTypes {
     | '/staff'
     | '/transfers'
     | '/upgrade'
+    | '/app/alerts'
     | '/schools/$schoolId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -264,7 +264,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/pricing'
     | '/schools'
-    | '/alerts'
     | '/assistant'
     | '/attendance'
     | '/attendance-capture'
@@ -281,6 +280,7 @@ export interface FileRouteTypes {
     | '/staff'
     | '/transfers'
     | '/upgrade'
+    | '/app/alerts'
     | '/schools/$schoolId'
   id:
     | '__root__'
@@ -290,7 +290,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/pricing'
     | '/schools'
-    | '/_app/alerts'
     | '/_app/assistant'
     | '/_app/attendance'
     | '/_app/attendance-capture'
@@ -307,6 +306,7 @@ export interface FileRouteTypes {
     | '/_app/staff'
     | '/_app/transfers'
     | '/_app/upgrade'
+    | '/app/alerts'
     | '/schools/$schoolId'
   fileRoutesById: FileRoutesById
 }
@@ -317,6 +317,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   PricingRoute: typeof PricingRoute
   SchoolsRoute: typeof SchoolsRouteWithChildren
+  AppAlertsRoute: typeof AppAlertsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -369,6 +370,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/schools/$schoolId'
       preLoaderRoute: typeof SchoolsSchoolIdRouteImport
       parentRoute: typeof SchoolsRoute
+    }
+    '/app/alerts': {
+      id: '/app/alerts'
+      path: '/app/alerts'
+      fullPath: '/app/alerts'
+      preLoaderRoute: typeof AppAlertsRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_app/upgrade': {
       id: '/_app/upgrade'
@@ -482,18 +490,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAssistantRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/alerts': {
-      id: '/_app/alerts'
-      path: '/alerts'
-      fullPath: '/alerts'
-      preLoaderRoute: typeof AppAlertsRouteImport
-      parentRoute: typeof AppRoute
-    }
   }
 }
 
 interface AppRouteChildren {
-  AppAlertsRoute: typeof AppAlertsRoute
   AppAssistantRoute: typeof AppAssistantRoute
   AppAttendanceRoute: typeof AppAttendanceRoute
   AppAttendanceCaptureRoute: typeof AppAttendanceCaptureRoute
@@ -513,7 +513,6 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppAlertsRoute: AppAlertsRoute,
   AppAssistantRoute: AppAssistantRoute,
   AppAttendanceRoute: AppAttendanceRoute,
   AppAttendanceCaptureRoute: AppAttendanceCaptureRoute,
@@ -552,6 +551,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   PricingRoute: PricingRoute,
   SchoolsRoute: SchoolsRouteWithChildren,
+  AppAlertsRoute: AppAlertsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
