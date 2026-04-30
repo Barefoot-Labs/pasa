@@ -27,7 +27,7 @@ function AppLayout() {
         <div className="flex-1 flex flex-col">
           <header className="h-14 border-b bg-background flex items-center px-4 gap-3">
             <SidebarTrigger />
-            <div className="text-sm font-medium text-muted-foreground">Funda</div>
+            <div className="text-sm font-medium text-muted-foreground">PASA</div>
           </header>
           <main className="flex-1 p-6"><Outlet /></main>
         </div>

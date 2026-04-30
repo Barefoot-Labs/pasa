@@ -14,7 +14,7 @@ import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   component: AuthPage,
-  head: () => ({ meta: [{ title: "Sign in to Funda" }]}),
+  head: () => ({ meta: [{ title: "Parent sign in · PASA" }]}),
 });
 
 const signInSchema = z.object({
@@ -85,11 +85,15 @@ function AuthPage() {
           <h2 className="text-3xl font-bold leading-tight">Every school. <br/><span className="text-accent">Every parent.</span> One app.</h2>
           <p className="mt-4 text-primary-foreground/70 max-w-sm">Marks, attendance, discipline and transfers — all in one place.</p>
         </div>
-        <div className="text-xs text-primary-foreground/50">© Funda · Made for South Africa</div>
+        <div className="text-xs text-primary-foreground/50">© PASA · Made for South Africa</div>
       </div>
       <div className="flex items-center justify-center p-6 bg-background">
         <Card className="p-8 w-full max-w-md">
           <div className="lg:hidden mb-6"><FundaLogo /></div>
+          <div className="mb-4">
+            <h1 className="text-xl font-semibold">For parents</h1>
+            <p className="text-xs text-muted-foreground mt-1">School staff: <a href="/school/auth" className="text-accent hover:underline">sign in here</a></p>
+          </div>
           <Tabs defaultValue="signin">
             <TabsList className="grid grid-cols-2 w-full">
               <TabsTrigger value="signin">Sign in</TabsTrigger>
