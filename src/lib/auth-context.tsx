@@ -76,7 +76,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         profile,
         primaryRole,
         primarySchoolId,
-        refresh: async () => user && loadUserData(user.id),
+        refresh: async () => {
+          if (user) await loadUserData(user.id);
+        },
         signOut: async () => {
           await supabase.auth.signOut();
         },
