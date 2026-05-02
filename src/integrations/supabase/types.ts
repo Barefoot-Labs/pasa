@@ -817,7 +817,7 @@ export type Database = {
         | "Mpumalanga"
         | "Northern Cape"
         | "North West"
-      school_phase: "primary" | "secondary" | "combined"
+      school_phase: "primary" | "secondary" | "combined" | "ecd"
       school_type: "public" | "independent" | "private" | "special"
       subscription_tier: "free" | "premium"
       transfer_status: "pending" | "approved" | "rejected" | "completed"
@@ -974,7 +974,7 @@ export const Constants = {
         "Northern Cape",
         "North West",
       ],
-      school_phase: ["primary", "secondary", "combined"],
+      school_phase: ["primary", "secondary", "combined", "ecd"],
       school_type: ["public", "independent", "private", "special"],
       subscription_tier: ["free", "premium"],
       transfer_status: ["pending", "approved", "rejected", "completed"],
