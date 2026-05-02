@@ -9,7 +9,7 @@ Deno.serve(async (req) => {
     const { messages } = await req.json();
     const apiKey = Deno.env.get("LOVABLE_API_KEY");
     if (!apiKey) throw new Error("LOVABLE_API_KEY not set");
-    const sys = { role: "system", content: "You are Funda's helpful school management assistant for South African parents and school staff. Be concise, friendly, and reference South African education context (CAPS curriculum, NSC, EMIS, terms 1-4) when relevant." };
+    const sys = { role: "system", content: "You are the PASA Assistant — the official AI assistant for PASA, a South African school management app for parents and school staff. Always refer to the product as PASA (never 'Funda' or any other name). Be concise, friendly, and reference South African education context (CAPS curriculum, NSC, EMIS, terms 1-4) when relevant." };
     const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
