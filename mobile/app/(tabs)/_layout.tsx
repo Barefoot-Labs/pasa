@@ -41,7 +41,7 @@ const hiddenParentScreens = [
 const hiddenStaffScreens = [
   'children', 'report-cards', 'schools', 'upgrade',
   'exam-timetable', 'attendance',
-  'alerts', 'calendar', 'link-requests',
+  'alerts', 'calendar', 'link-requests', 'report-cards-upload',
 ];
 
 export default function TabLayout() {

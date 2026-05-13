@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Users, ClipboardList, Shield, CalendarDays,
-  ArrowRight, CheckCircle2, AlertCircle, BookOpen,
+  ArrowRight, CheckCircle2, AlertCircle, BookOpen, UserCheck,
 } from "lucide-react";
 
 function currentTerm() {
@@ -38,6 +38,7 @@ export function SchoolOverview() {
   const [recentDiscipline, setRecentDiscipline] = useState<any[]>([]);
   const [nextEvent, setNextEvent]       = useState<any>(null);
   const [weekEvents, setWeekEvents]     = useState<any[]>([]);
+  const [pendingLinkCount, setPendingLinkCount] = useState(0);
 
   useEffect(() => {
     if (!primarySchoolId) return;
@@ -103,6 +104,13 @@ export function SchoolOverview() {
           .lte("event_date", weekEnd)
           .order("event_date").limit(5)
           .then(({ data }) => setWeekEvents(data ?? [])),
+
+        // Pending link requests count
+        (supabase as any).from("parent_link_requests")
+          .select("*", { count: "exact", head: true })
+          .eq("school_id", primarySchoolId)
+          .eq("status", "pending")
+          .then(({ count }: any) => setPendingLinkCount(count ?? 0)),
       ]);
     })();
   }, [primarySchoolId]);
@@ -264,8 +272,9 @@ export function SchoolOverview() {
 
       {(primaryRole === "principal" || primaryRole === "school_admin") && (
         <div className="grid grid-cols-2 gap-3">
-          <QuickLink to="/app/staff"     icon={Users}     label="Staff"     color="text-purple-500 bg-purple-500/10" />
-          <QuickLink to="/app/transfers" icon={BookOpen}  label="Transfers" color="text-blue-500 bg-blue-500/10" />
+          <QuickLink to="/app/staff"         icon={Users}      label="Staff"         color="text-purple-500 bg-purple-500/10" />
+          <QuickLink to="/app/link-requests" icon={UserCheck}  label="Link requests" color="text-accent bg-accent/10"
+            alert={pendingLinkCount > 0} value={pendingLinkCount > 0 ? pendingLinkCount : undefined} />
         </div>
       )}
     </div>
