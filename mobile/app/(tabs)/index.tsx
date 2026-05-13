@@ -194,6 +194,7 @@ function SchoolHome() {
   const quickLinks = [
     { label: 'Learners', icon: 'people', route: '/(tabs)/learners' },
     { label: 'Attendance', icon: 'checkmark-circle', route: '/(tabs)/attendance-capture' },
+    { label: 'Link requests', icon: 'person-add', route: '/(tabs)/link-requests' },
     { label: 'Discipline', icon: 'shield', route: '/(tabs)/discipline' },
     { label: 'Calendar', icon: 'calendar', route: '/(tabs)/calendar' },
     { label: 'Exam timetable', icon: 'list', route: '/(tabs)/exam-timetable' },

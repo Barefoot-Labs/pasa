@@ -29,6 +29,7 @@ import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppMarksCaptureRouteImport } from './routes/app.marks-capture'
 import { Route as AppMarksRouteImport } from './routes/app.marks'
 import { Route as AppLearnersRouteImport } from './routes/app.learners'
+import { Route as AppLinkRequestsRouteImport } from './routes/app.link-requests'
 import { Route as AppDisciplineSchoolRouteImport } from './routes/app.discipline-school'
 import { Route as AppDisciplineRouteImport } from './routes/app.discipline'
 import { Route as AppExamTimetableRouteImport } from './routes/app.exam-timetable'
@@ -145,6 +146,11 @@ const AppLearnersRoute = AppLearnersRouteImport.update({
   path: '/learners',
   getParentRoute: () => AppRoute,
 } as any)
+const AppLinkRequestsRoute = AppLinkRequestsRouteImport.update({
+  id: '/link-requests',
+  path: '/link-requests',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDisciplineSchoolRoute = AppDisciplineSchoolRouteImport.update({
   id: '/discipline-school',
   path: '/discipline-school',
@@ -244,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/app/discipline': typeof AppDisciplineRoute
   '/app/discipline-school': typeof AppDisciplineSchoolRoute
   '/app/learners': typeof AppLearnersRoute
+  '/app/link-requests': typeof AppLinkRequestsRoute
   '/app/marks': typeof AppMarksRoute
   '/app/marks-capture': typeof AppMarksCaptureRoute
   '/app/profile': typeof AppProfileRoute
@@ -279,6 +286,7 @@ export interface FileRoutesByTo {
   '/app/discipline': typeof AppDisciplineRoute
   '/app/discipline-school': typeof AppDisciplineSchoolRoute
   '/app/learners': typeof AppLearnersRoute
+  '/app/link-requests': typeof AppLinkRequestsRoute
   '/app/marks': typeof AppMarksRoute
   '/app/marks-capture': typeof AppMarksCaptureRoute
   '/app/profile': typeof AppProfileRoute
@@ -317,6 +325,7 @@ export interface FileRoutesById {
   '/app/discipline': typeof AppDisciplineRoute
   '/app/discipline-school': typeof AppDisciplineSchoolRoute
   '/app/learners': typeof AppLearnersRoute
+  '/app/link-requests': typeof AppLinkRequestsRoute
   '/app/marks': typeof AppMarksRoute
   '/app/marks-capture': typeof AppMarksCaptureRoute
   '/app/profile': typeof AppProfileRoute
@@ -356,6 +365,7 @@ export interface FileRouteTypes {
     | '/app/discipline'
     | '/app/discipline-school'
     | '/app/learners'
+    | '/app/link-requests'
     | '/app/marks'
     | '/app/marks-capture'
     | '/app/profile'
@@ -391,6 +401,7 @@ export interface FileRouteTypes {
     | '/app/discipline'
     | '/app/discipline-school'
     | '/app/learners'
+    | '/app/link-requests'
     | '/app/marks'
     | '/app/marks-capture'
     | '/app/profile'
@@ -428,6 +439,7 @@ export interface FileRouteTypes {
     | '/app/discipline'
     | '/app/discipline-school'
     | '/app/learners'
+    | '/app/link-requests'
     | '/app/marks'
     | '/app/marks-capture'
     | '/app/profile'
@@ -597,6 +609,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLearnersRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/link-requests': {
+      id: '/app/link-requests'
+      path: '/link-requests'
+      fullPath: '/app/link-requests'
+      preLoaderRoute: typeof AppLinkRequestsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/discipline-school': {
       id: '/app/discipline-school'
       path: '/discipline-school'
@@ -746,6 +765,7 @@ interface AppRouteChildren {
   AppDisciplineRoute: typeof AppDisciplineRoute
   AppDisciplineSchoolRoute: typeof AppDisciplineSchoolRoute
   AppLearnersRoute: typeof AppLearnersRoute
+  AppLinkRequestsRoute: typeof AppLinkRequestsRoute
   AppMarksRoute: typeof AppMarksRoute
   AppMarksCaptureRoute: typeof AppMarksCaptureRoute
   AppProfileRoute: typeof AppProfileRoute
@@ -769,6 +789,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDisciplineRoute: AppDisciplineRoute,
   AppDisciplineSchoolRoute: AppDisciplineSchoolRoute,
   AppLearnersRoute: AppLearnersRoute,
+  AppLinkRequestsRoute: AppLinkRequestsRoute,
   AppMarksRoute: AppMarksRoute,
   AppMarksCaptureRoute: AppMarksCaptureRoute,
   AppProfileRoute: AppProfileRoute,

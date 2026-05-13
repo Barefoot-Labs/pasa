@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter } from "@/components/ui/sidebar";
 import { FundaLogo } from "./Logo";
 import { useAuth } from "@/lib/auth-context";
-import { Home, Users, BookOpen, CalendarDays, Bell, Shield, ArrowLeftRight, ClipboardList, FileText, MessageCircle, Crown, LogOut, ShieldCheck, Settings, UserCog, GraduationCap, ClipboardCheck, LayoutList } from "lucide-react";
+import { Home, Users, BookOpen, CalendarDays, Bell, Shield, ArrowLeftRight, ClipboardList, FileText, MessageCircle, Crown, LogOut, ShieldCheck, Settings, UserCog, GraduationCap, ClipboardCheck, LayoutList, UserCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const parentItems = [
@@ -29,6 +29,7 @@ const schoolBaseItems = [
 ];
 
 const adminExtra = [
+  { to: "/app/link-requests", title: "Link requests", icon: UserCheck },
   { to: "/app/transfers", title: "Transfers", icon: ArrowLeftRight },
   { to: "/app/staff", title: "Staff", icon: UserCog },
   { to: "/app/audit", title: "Audit log", icon: FileText },
