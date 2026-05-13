@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ExamTimetablePage } from "@/components/funda/dashboards/ExamTimetablePage";
+import { ClassesPage } from "@/components/funda/dashboards/ClassesPage";
 
 export const Route = createFileRoute("/app/classes")({
-  component: ExamTimetablePage,
+  component: ClassesPage,
 });

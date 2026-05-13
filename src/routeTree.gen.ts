@@ -31,6 +31,7 @@ import { Route as AppMarksRouteImport } from './routes/app.marks'
 import { Route as AppLearnersRouteImport } from './routes/app.learners'
 import { Route as AppDisciplineSchoolRouteImport } from './routes/app.discipline-school'
 import { Route as AppDisciplineRouteImport } from './routes/app.discipline'
+import { Route as AppExamTimetableRouteImport } from './routes/app.exam-timetable'
 import { Route as AppClassesRouteImport } from './routes/app.classes'
 import { Route as AppChildrenRouteImport } from './routes/app.children'
 import { Route as AppCalendarRouteImport } from './routes/app.calendar'
@@ -159,6 +160,11 @@ const AppClassesRoute = AppClassesRouteImport.update({
   path: '/classes',
   getParentRoute: () => AppRoute,
 } as any)
+const AppExamTimetableRoute = AppExamTimetableRouteImport.update({
+  id: '/exam-timetable',
+  path: '/exam-timetable',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppChildrenRoute = AppChildrenRouteImport.update({
   id: '/children',
   path: '/children',
@@ -234,6 +240,7 @@ export interface FileRoutesByFullPath {
   '/app/calendar': typeof AppCalendarRoute
   '/app/children': typeof AppChildrenRoute
   '/app/classes': typeof AppClassesRoute
+  '/app/exam-timetable': typeof AppExamTimetableRoute
   '/app/discipline': typeof AppDisciplineRoute
   '/app/discipline-school': typeof AppDisciplineSchoolRoute
   '/app/learners': typeof AppLearnersRoute
@@ -268,6 +275,7 @@ export interface FileRoutesByTo {
   '/app/calendar': typeof AppCalendarRoute
   '/app/children': typeof AppChildrenRoute
   '/app/classes': typeof AppClassesRoute
+  '/app/exam-timetable': typeof AppExamTimetableRoute
   '/app/discipline': typeof AppDisciplineRoute
   '/app/discipline-school': typeof AppDisciplineSchoolRoute
   '/app/learners': typeof AppLearnersRoute
@@ -305,6 +313,7 @@ export interface FileRoutesById {
   '/app/calendar': typeof AppCalendarRoute
   '/app/children': typeof AppChildrenRoute
   '/app/classes': typeof AppClassesRoute
+  '/app/exam-timetable': typeof AppExamTimetableRoute
   '/app/discipline': typeof AppDisciplineRoute
   '/app/discipline-school': typeof AppDisciplineSchoolRoute
   '/app/learners': typeof AppLearnersRoute
@@ -343,6 +352,7 @@ export interface FileRouteTypes {
     | '/app/calendar'
     | '/app/children'
     | '/app/classes'
+    | '/app/exam-timetable'
     | '/app/discipline'
     | '/app/discipline-school'
     | '/app/learners'
@@ -377,6 +387,7 @@ export interface FileRouteTypes {
     | '/app/calendar'
     | '/app/children'
     | '/app/classes'
+    | '/app/exam-timetable'
     | '/app/discipline'
     | '/app/discipline-school'
     | '/app/learners'
@@ -413,6 +424,7 @@ export interface FileRouteTypes {
     | '/app/calendar'
     | '/app/children'
     | '/app/classes'
+    | '/app/exam-timetable'
     | '/app/discipline'
     | '/app/discipline-school'
     | '/app/learners'
@@ -606,6 +618,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClassesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/exam-timetable': {
+      id: '/app/exam-timetable'
+      path: '/exam-timetable'
+      fullPath: '/app/exam-timetable'
+      preLoaderRoute: typeof AppExamTimetableRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/children': {
       id: '/app/children'
       path: '/children'
@@ -723,6 +742,7 @@ interface AppRouteChildren {
   AppCalendarRoute: typeof AppCalendarRoute
   AppChildrenRoute: typeof AppChildrenRoute
   AppClassesRoute: typeof AppClassesRoute
+  AppExamTimetableRoute: typeof AppExamTimetableRoute
   AppDisciplineRoute: typeof AppDisciplineRoute
   AppDisciplineSchoolRoute: typeof AppDisciplineSchoolRoute
   AppLearnersRoute: typeof AppLearnersRoute
@@ -745,6 +765,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCalendarRoute: AppCalendarRoute,
   AppChildrenRoute: AppChildrenRoute,
   AppClassesRoute: AppClassesRoute,
+  AppExamTimetableRoute: AppExamTimetableRoute,
   AppDisciplineRoute: AppDisciplineRoute,
   AppDisciplineSchoolRoute: AppDisciplineSchoolRoute,
   AppLearnersRoute: AppLearnersRoute,
