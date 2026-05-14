@@ -109,6 +109,7 @@ export default function RootLayout() {
       <AuthGate>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="auth" />
+          <Stack.Screen name="forgot-password" />
           <Stack.Screen name="(tabs)" />
         </Stack>
         <StatusBar style="auto" />

@@ -113,6 +113,11 @@ function SchoolAuth() {
             <Button disabled={loading} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
               {loading ? <BarefootLoader size={22} theme="light" /> : "Sign in"}
             </Button>
+            <div className="text-center">
+              <Link to="/reset-password" className="text-xs text-muted-foreground hover:text-accent transition-colors">
+                Forgot your password?
+              </Link>
+            </div>
           </form>
           <div className="mt-6 rounded-lg border border-border/60 bg-muted/40 p-3 text-xs text-muted-foreground">
             School accounts are created by your principal or a PASA administrator. Need access? Ask your school admin to invite you.

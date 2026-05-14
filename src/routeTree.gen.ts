@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SchoolsRouteImport } from './routes/schools'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
@@ -51,6 +52,11 @@ import { Route as AdminSchoolsSchoolIdRouteImport } from './routes/admin.schools
 const SchoolsRoute = SchoolsRouteImport.update({
   id: '/schools',
   path: '/schools',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PricingRoute = PricingRouteImport.update({
@@ -246,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/pricing': typeof PricingRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/schools': typeof SchoolsRouteWithChildren
   '/admin/districts': typeof AdminDistrictsRoute
   '/admin/schools': typeof AdminSchoolsRouteWithChildren
@@ -284,6 +291,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/pricing': typeof PricingRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/schools': typeof SchoolsRouteWithChildren
   '/admin/districts': typeof AdminDistrictsRoute
   '/admin/schools': typeof AdminSchoolsRouteWithChildren
@@ -325,6 +333,7 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/pricing': typeof PricingRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/schools': typeof SchoolsRouteWithChildren
   '/admin/districts': typeof AdminDistrictsRoute
   '/admin/schools': typeof AdminSchoolsRouteWithChildren
@@ -367,6 +376,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/pricing'
+    | '/reset-password'
     | '/schools'
     | '/admin/districts'
     | '/admin/schools'
@@ -405,6 +415,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/pricing'
+    | '/reset-password'
     | '/schools'
     | '/admin/districts'
     | '/admin/schools'
@@ -445,6 +456,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/pricing'
+    | '/reset-password'
     | '/schools'
     | '/admin/districts'
     | '/admin/schools'
@@ -486,6 +498,7 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
   PricingRoute: typeof PricingRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SchoolsRoute: typeof SchoolsRouteWithChildren
   SchoolAuthRoute: typeof SchoolAuthRoute
   SuperadminAuthRoute: typeof SuperadminAuthRoute
@@ -498,6 +511,13 @@ declare module '@tanstack/react-router' {
       path: '/schools'
       fullPath: '/schools'
       preLoaderRoute: typeof SchoolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing': {
@@ -862,6 +882,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
   PricingRoute: PricingRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SchoolsRoute: SchoolsRouteWithChildren,
   SchoolAuthRoute: SchoolAuthRoute,
   SuperadminAuthRoute: SuperadminAuthRoute,

@@ -157,6 +157,11 @@ function AuthPage() {
                     ? <BarefootLoader size={22} theme="light" />
                     : "Sign in"}
                 </Button>
+                <div className="text-center">
+                  <Link to="/reset-password" className="text-xs text-muted-foreground hover:text-accent transition-colors">
+                    Forgot your password?
+                  </Link>
+                </div>
               </form>
             </TabsContent>
 

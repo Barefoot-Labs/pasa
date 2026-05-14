@@ -3,6 +3,7 @@ import {
   View, Text, TextInput, TouchableOpacity,
   StyleSheet, KeyboardAvoidingView, Platform, ActivityIndicator, Alert,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 import { BarefootLoader } from '@/lib/BarefootLoader';
 import { supabase } from '@/lib/supabase';
 
@@ -10,6 +11,7 @@ export default function AuthScreen() {
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading]   = useState(false);
+  const router = useRouter();
 
   const signIn = async () => {
     if (!email.trim() || !password) return Alert.alert('Enter your email and password');
@@ -63,6 +65,13 @@ export default function AuthScreen() {
             {loading
               ? <BarefootLoader size={22} theme="light" />
               : <Text style={styles.buttonText}>Sign in</Text>}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.forgotBtn}
+            onPress={() => router.push('/forgot-password')}
+          >
+            <Text style={styles.forgotText}>Forgot your password?</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -130,5 +139,13 @@ const styles = StyleSheet.create({
     color: '#0f172a',
     fontWeight: '700',
     fontSize: 15,
+  },
+  forgotBtn: {
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  forgotText: {
+    color: '#64748b',
+    fontSize: 13,
   },
 });
