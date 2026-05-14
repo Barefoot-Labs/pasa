@@ -41,9 +41,11 @@ import { Route as AppAttendanceCaptureRouteImport } from './routes/app.attendanc
 import { Route as AppAttendanceRouteImport } from './routes/app.attendance'
 import { Route as AppAssistantRouteImport } from './routes/app.assistant'
 import { Route as AppAlertsRouteImport } from './routes/app.alerts'
+import { Route as AppAdmissionsRouteImport } from './routes/app.admissions'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminSchoolsRouteImport } from './routes/admin.schools'
 import { Route as AdminDistrictsRouteImport } from './routes/admin.districts'
+import { Route as AppLearnerLearnerIdRouteImport } from './routes/app.learner.$learnerId'
 import { Route as AdminSchoolsSchoolIdRouteImport } from './routes/admin.schools.$schoolId'
 
 const SchoolsRoute = SchoolsRouteImport.update({
@@ -206,6 +208,11 @@ const AppAlertsRoute = AppAlertsRouteImport.update({
   path: '/alerts',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAdmissionsRoute = AppAdmissionsRouteImport.update({
+  id: '/admissions',
+  path: '/admissions',
+  getParentRoute: () => AppRoute,
+} as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -220,6 +227,11 @@ const AdminDistrictsRoute = AdminDistrictsRouteImport.update({
   id: '/districts',
   path: '/districts',
   getParentRoute: () => AdminRoute,
+} as any)
+const AppLearnerLearnerIdRoute = AppLearnerLearnerIdRouteImport.update({
+  id: '/learner/$learnerId',
+  path: '/learner/$learnerId',
+  getParentRoute: () => AppRoute,
 } as any)
 const AdminSchoolsSchoolIdRoute = AdminSchoolsSchoolIdRouteImport.update({
   id: '/$schoolId',
@@ -238,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/admin/districts': typeof AdminDistrictsRoute
   '/admin/schools': typeof AdminSchoolsRouteWithChildren
   '/admin/users': typeof AdminUsersRoute
+  '/app/admissions': typeof AppAdmissionsRoute
   '/app/alerts': typeof AppAlertsRoute
   '/app/assistant': typeof AppAssistantRoute
   '/app/attendance': typeof AppAttendanceRoute
@@ -264,6 +277,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/admin/schools/$schoolId': typeof AdminSchoolsSchoolIdRoute
+  '/app/learner/$learnerId': typeof AppLearnerLearnerIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -274,6 +288,7 @@ export interface FileRoutesByTo {
   '/admin/districts': typeof AdminDistrictsRoute
   '/admin/schools': typeof AdminSchoolsRouteWithChildren
   '/admin/users': typeof AdminUsersRoute
+  '/app/admissions': typeof AppAdmissionsRoute
   '/app/alerts': typeof AppAlertsRoute
   '/app/assistant': typeof AppAssistantRoute
   '/app/attendance': typeof AppAttendanceRoute
@@ -300,6 +315,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
   '/admin/schools/$schoolId': typeof AdminSchoolsSchoolIdRoute
+  '/app/learner/$learnerId': typeof AppLearnerLearnerIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -313,6 +329,7 @@ export interface FileRoutesById {
   '/admin/districts': typeof AdminDistrictsRoute
   '/admin/schools': typeof AdminSchoolsRouteWithChildren
   '/admin/users': typeof AdminUsersRoute
+  '/app/admissions': typeof AppAdmissionsRoute
   '/app/alerts': typeof AppAlertsRoute
   '/app/assistant': typeof AppAssistantRoute
   '/app/attendance': typeof AppAttendanceRoute
@@ -339,6 +356,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/admin/schools/$schoolId': typeof AdminSchoolsSchoolIdRoute
+  '/app/learner/$learnerId': typeof AppLearnerLearnerIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -353,6 +371,7 @@ export interface FileRouteTypes {
     | '/admin/districts'
     | '/admin/schools'
     | '/admin/users'
+    | '/app/admissions'
     | '/app/alerts'
     | '/app/assistant'
     | '/app/attendance'
@@ -379,6 +398,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/app/'
     | '/admin/schools/$schoolId'
+    | '/app/learner/$learnerId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -389,6 +409,7 @@ export interface FileRouteTypes {
     | '/admin/districts'
     | '/admin/schools'
     | '/admin/users'
+    | '/app/admissions'
     | '/app/alerts'
     | '/app/assistant'
     | '/app/attendance'
@@ -415,6 +436,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/admin/schools/$schoolId'
+    | '/app/learner/$learnerId'
   id:
     | '__root__'
     | '/'
@@ -427,6 +449,7 @@ export interface FileRouteTypes {
     | '/admin/districts'
     | '/admin/schools'
     | '/admin/users'
+    | '/app/admissions'
     | '/app/alerts'
     | '/app/assistant'
     | '/app/attendance'
@@ -453,6 +476,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/app/'
     | '/admin/schools/$schoolId'
+    | '/app/learner/$learnerId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -693,6 +717,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAlertsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/admissions': {
+      id: '/app/admissions'
+      path: '/admissions'
+      fullPath: '/app/admissions'
+      preLoaderRoute: typeof AppAdmissionsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/admin/users': {
       id: '/admin/users'
       path: '/users'
@@ -713,6 +744,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/districts'
       preLoaderRoute: typeof AdminDistrictsRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/app/learner/$learnerId': {
+      id: '/app/learner/$learnerId'
+      path: '/learner/$learnerId'
+      fullPath: '/app/learner/$learnerId'
+      preLoaderRoute: typeof AppLearnerLearnerIdRouteImport
+      parentRoute: typeof AppRoute
     }
     '/admin/schools/$schoolId': {
       id: '/admin/schools/$schoolId'
@@ -753,6 +791,7 @@ const AdminRouteChildren: AdminRouteChildren = {
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface AppRouteChildren {
+  AppAdmissionsRoute: typeof AppAdmissionsRoute
   AppAlertsRoute: typeof AppAlertsRoute
   AppAssistantRoute: typeof AppAssistantRoute
   AppAttendanceRoute: typeof AppAttendanceRoute
@@ -774,9 +813,11 @@ interface AppRouteChildren {
   AppTransfersRoute: typeof AppTransfersRoute
   AppUpgradeRoute: typeof AppUpgradeRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppLearnerLearnerIdRoute: typeof AppLearnerLearnerIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAdmissionsRoute: AppAdmissionsRoute,
   AppAlertsRoute: AppAlertsRoute,
   AppAssistantRoute: AppAssistantRoute,
   AppAttendanceRoute: AppAttendanceRoute,
@@ -798,6 +839,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppTransfersRoute: AppTransfersRoute,
   AppUpgradeRoute: AppUpgradeRoute,
   AppIndexRoute: AppIndexRoute,
+  AppLearnerLearnerIdRoute: AppLearnerLearnerIdRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

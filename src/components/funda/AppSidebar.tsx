@@ -30,10 +30,11 @@ const schoolBaseItems = [
 ];
 
 const adminExtra = [
-  { to: "/app/link-requests", title: "Link requests", icon: UserCheck },
-  { to: "/app/transfers", title: "Transfers", icon: ArrowLeftRight },
-  { to: "/app/staff", title: "Staff", icon: UserCog },
-  { to: "/app/audit", title: "Audit log", icon: FileText },
+  { to: "/app/link-requests", title: "Link requests",  icon: UserCheck },
+  { to: "/app/admissions",    title: "Admissions",     icon: GraduationCap },
+  { to: "/app/transfers",     title: "Transfers",      icon: ArrowLeftRight },
+  { to: "/app/staff",         title: "Staff",          icon: UserCog },
+  { to: "/app/audit",         title: "Audit log",      icon: FileText },
 ];
 
 export function AppSidebar() {

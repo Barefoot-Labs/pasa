@@ -71,6 +71,7 @@ function ParentHome() {
     { label: 'Schools', icon: 'school', route: '/(tabs)/schools' },
     { label: isPremium ? 'Premium ✓' : 'Go Premium', icon: 'star', route: '/(tabs)/upgrade' },
     { label: 'Alerts', icon: 'notifications', route: '/(tabs)/alerts' },
+    { label: 'AI Assistant', icon: 'sparkles', route: '/(tabs)/assistant' },
   ];
 
   return (
@@ -200,6 +201,7 @@ function SchoolHome() {
     { label: 'Calendar', icon: 'calendar', route: '/(tabs)/calendar' },
     { label: 'Exam timetable', icon: 'list', route: '/(tabs)/exam-timetable' },
     { label: 'Alerts', icon: 'notifications', route: '/(tabs)/alerts' },
+    { label: 'AI Assistant', icon: 'sparkles', route: '/(tabs)/assistant' },
   ];
 
   return (

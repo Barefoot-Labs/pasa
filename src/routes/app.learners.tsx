@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
@@ -195,8 +195,12 @@ function LearnersPage() {
             </thead>
             <tbody>
               {filtered.map(l => (
-                <tr key={l.id} className="border-t align-middle">
-                  <td className="p-3 font-medium">{l.first_name} {l.last_name}</td>
+                <tr key={l.id} className="border-t align-middle hover:bg-muted/30 cursor-pointer" onClick={() => {}}>
+                  <td className="p-3 font-medium">
+                    <Link to="/app/learner/$learnerId" params={{ learnerId: l.id }} className="hover:text-accent transition-colors">
+                      {l.first_name} {l.last_name}
+                    </Link>
+                  </td>
                   <td className="p-3 font-mono text-xs text-muted-foreground">{l.learner_number ?? "—"}</td>
                   <td className="p-3"><Badge variant="secondary">{gradeLabel(l.grade_id)}</Badge></td>
                   <td className="p-3 text-muted-foreground capitalize">{l.gender ?? "—"}</td>

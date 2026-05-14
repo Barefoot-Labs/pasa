@@ -35,6 +35,7 @@ const hiddenParentScreens = [
   'children', 'report-cards', 'schools', 'upgrade',
   'exam-timetable', 'attendance',
   'attendance-capture', 'learners', 'link-requests',
+  'assistant',
 ];
 
 // Staff: calendar, alerts are hidden (not in staff tabs but navigable)
@@ -42,6 +43,7 @@ const hiddenStaffScreens = [
   'children', 'report-cards', 'schools', 'upgrade',
   'exam-timetable', 'attendance',
   'alerts', 'calendar', 'link-requests', 'report-cards-upload',
+  'assistant',
 ];
 
 export default function TabLayout() {
