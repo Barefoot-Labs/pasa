@@ -1,11 +1,16 @@
 /**
- * BarefootLoader — animated foot-drawing loader for React Native.
+ * BarefootLoader — React Native (Reanimated + react-native-svg)
  *
- * The foot pad outline traces itself first, then each toe circle draws in
- * sequence (left → middle accent → right → pinky), then everything fades
- * and the cycle repeats — like a pen drawing a footprint.
- *
- * Uses react-native-reanimated (already installed) + react-native-svg.
+ * Sequence (slow, deliberate):
+ * 1. Foot pad draws ~270° open arc — 1200ms
+ * 2. Toe 1 spins 360° — 800ms
+ * 3. Toe 2 (accent) spins 360° — 800ms
+ * 4. Toe 3 spins 360° — 800ms
+ * 5. Toe 4 (pinky) spins 360° — 800ms
+ * 6. Hold — 600ms
+ * 7. Foot pad unspins (rewinds) — 1200ms
+ * 8. All toes fade out — 400ms
+ * 9. Loop
  */
 
 import { useEffect } from 'react';
@@ -19,6 +24,7 @@ import Animated, {
   withSequence,
   Easing,
   cancelAnimation,
+  type SharedValue,
 } from 'react-native-reanimated';
 
 const AnimatedPath   = Animated.createAnimatedComponent(Path);
@@ -34,141 +40,138 @@ const COLORS = {
   light: { primary: '#0f172a', accent: '#38bdf8' },
 };
 
-// Approximate stroke lengths
-const PAD_LEN   = 160;
-const TOE_LEN   = 28.3; // 2π × 4.5
-const PINKY_LEN = 22.0; // 2π × 3.5
+const PAD_DRAW  = 120;   // ~270° of the open arc
+const TOE_C     = 28.3;
+const PINKY_C   = 22.0;
 
-const DRAW_MS  = 700;  // time to draw each element
-const HOLD_MS  = 600;  // hold fully drawn
-const FADE_MS  = 300;  // fade out
-const GAP_MS   = 150;  // gap between elements
+const T_PAD_IN  = 1200;
+const T_TOE     = 800;
+const T_HOLD    = 600;
+const T_PAD_OUT = 1200;
+const T_FADE    = 400;
+const TOTAL     = T_PAD_IN + T_TOE * 4 + T_HOLD + T_PAD_OUT + T_FADE;
 
-function useStrokeAnim(totalLength: number, startDelay: number) {
-  const offset  = useSharedValue(totalLength);
-  const opacity = useSharedValue(0);
+const S_T1      = T_PAD_IN;
+const S_T2      = S_T1 + T_TOE;
+const S_T3      = S_T2 + T_TOE;
+const S_T4      = S_T3 + T_TOE;
+const S_HOLD    = S_T4 + T_TOE;
+const S_PAD_OUT = S_HOLD + T_HOLD;
+const S_FADE    = S_PAD_OUT + T_PAD_OUT;
 
-  useEffect(() => {
-    const cycleDuration = startDelay + DRAW_MS + HOLD_MS + FADE_MS + GAP_MS;
-
-    offset.value = withRepeat(
-      withSequence(
-        withDelay(startDelay, withTiming(0, { duration: DRAW_MS, easing: Easing.inOut(Easing.ease) })),
-        withTiming(0, { duration: HOLD_MS }),
-        withTiming(totalLength, { duration: 0 }),
-        withTiming(totalLength, { duration: GAP_MS }),
-      ),
-      -1,
-      false,
-    );
-
-    opacity.value = withRepeat(
-      withSequence(
-        withDelay(startDelay, withTiming(1, { duration: 80 })),
-        withTiming(1, { duration: DRAW_MS + HOLD_MS - 80 }),
-        withTiming(0, { duration: FADE_MS }),
-        withTiming(0, { duration: GAP_MS }),
-      ),
-      -1,
-      false,
-    );
-
-    return () => {
-      cancelAnimation(offset);
-      cancelAnimation(opacity);
-    };
-  }, []);
-
-  return { offset, opacity };
-}
+const ease = Easing.bezier(0.4, 0, 0.2, 1);
 
 export function BarefootLoader({ size = 120, theme = 'dark' }: BarefootLoaderProps) {
   const c = COLORS[theme];
 
-  // Each element starts after the previous one begins drawing
-  const pad   = useStrokeAnim(PAD_LEN,   0);
-  const toe1  = useStrokeAnim(TOE_LEN,   DRAW_MS * 0.6);
-  const toe2  = useStrokeAnim(TOE_LEN,   DRAW_MS * 0.6 + GAP_MS + DRAW_MS * 0.4);
-  const toe3  = useStrokeAnim(TOE_LEN,   DRAW_MS * 0.6 + (GAP_MS + DRAW_MS * 0.4) * 2);
-  const pinky = useStrokeAnim(PINKY_LEN, DRAW_MS * 0.6 + (GAP_MS + DRAW_MS * 0.4) * 3);
+  // Pad
+  const padOffset  = useSharedValue(PAD_DRAW);
+  const padOpacity = useSharedValue(0);
 
-  const padProps = useAnimatedProps(() => ({
-    strokeDashoffset: pad.offset.value,
-    opacity: pad.opacity.value,
-  }));
+  // Toes
+  const t1Offset = useSharedValue(TOE_C);   const t1Opacity = useSharedValue(0);
+  const t2Offset = useSharedValue(TOE_C);   const t2Opacity = useSharedValue(0);
+  const t3Offset = useSharedValue(TOE_C);   const t3Opacity = useSharedValue(0);
+  const t4Offset = useSharedValue(PINKY_C); const t4Opacity = useSharedValue(0);
 
-  const toe1Props = useAnimatedProps(() => ({
-    strokeDashoffset: toe1.offset.value,
-    opacity: toe1.opacity.value,
-  }));
+  useEffect(() => {
+    // ── Foot pad ──
+    padOpacity.value = withRepeat(withSequence(
+      withTiming(1, { duration: 50 }),
+      withTiming(1, { duration: S_FADE - 50 }),
+      withTiming(0, { duration: T_FADE }),
+    ), -1, false);
 
-  const toe2Props = useAnimatedProps(() => ({
-    strokeDashoffset: toe2.offset.value,
-    opacity: toe2.opacity.value,
-  }));
+    padOffset.value = withRepeat(withSequence(
+      withTiming(0,        { duration: T_PAD_IN,  easing: ease }),  // spin in
+      withTiming(0,        { duration: S_PAD_OUT - T_PAD_IN }),     // hold while toes draw + hold
+      withTiming(PAD_DRAW, { duration: T_PAD_OUT, easing: ease }),  // unspin
+      withTiming(PAD_DRAW, { duration: T_FADE }),                   // stay hidden during fade
+    ), -1, false);
 
-  const toe3Props = useAnimatedProps(() => ({
-    strokeDashoffset: toe3.offset.value,
-    opacity: toe3.opacity.value,
-  }));
+    // ── Toe helper ──
+    const animToe = (
+      offset: SharedValue<number>,
+      opacity: SharedValue<number>,
+      startMs: number,
+      len: number,
+      maxOp: number,
+    ) => {
+      const holdDur = S_PAD_OUT - (startMs + T_TOE);  // hold after spinning
+      const beforeFade = S_FADE - S_PAD_OUT;
 
-  const pinkyProps = useAnimatedProps(() => ({
-    strokeDashoffset: pinky.offset.value,
-    opacity: (pinky.opacity.value * 0.5) as number,
-  }));
+      opacity.value = withRepeat(withSequence(
+        withDelay(startMs, withTiming(maxOp, { duration: 40 })),
+        withTiming(maxOp, { duration: T_TOE - 40 + holdDur + T_PAD_OUT }),
+        withTiming(0,     { duration: T_FADE }),
+        withTiming(0,     { duration: startMs }),  // gap back to cycle start
+      ), -1, false);
+
+      offset.value = withRepeat(withSequence(
+        withDelay(startMs, withTiming(0, { duration: T_TOE, easing: ease })),
+        withTiming(0,   { duration: holdDur + T_PAD_OUT }),
+        withTiming(0,   { duration: T_FADE }),
+        withTiming(len, { duration: 0 }),
+        withTiming(len, { duration: startMs }),
+      ), -1, false);
+    };
+
+    animToe(t1Offset, t1Opacity, S_T1, TOE_C,   1);
+    animToe(t2Offset, t2Opacity, S_T2, TOE_C,   1);
+    animToe(t3Offset, t3Opacity, S_T3, TOE_C,   1);
+    animToe(t4Offset, t4Opacity, S_T4, PINKY_C, 0.5);
+
+    return () => {
+      cancelAnimation(padOffset);  cancelAnimation(padOpacity);
+      cancelAnimation(t1Offset);   cancelAnimation(t1Opacity);
+      cancelAnimation(t2Offset);   cancelAnimation(t2Opacity);
+      cancelAnimation(t3Offset);   cancelAnimation(t3Opacity);
+      cancelAnimation(t4Offset);   cancelAnimation(t4Opacity);
+    };
+  }, []);
+
+  const padProps = useAnimatedProps(() => ({ strokeDashoffset: padOffset.value, opacity: padOpacity.value }));
+  const t1Props  = useAnimatedProps(() => ({ strokeDashoffset: t1Offset.value,  opacity: t1Opacity.value }));
+  const t2Props  = useAnimatedProps(() => ({ strokeDashoffset: t2Offset.value,  opacity: t2Opacity.value }));
+  const t3Props  = useAnimatedProps(() => ({ strokeDashoffset: t3Offset.value,  opacity: t3Opacity.value }));
+  const t4Props  = useAnimatedProps(() => ({ strokeDashoffset: t4Offset.value,  opacity: t4Opacity.value }));
 
   return (
     <Svg width={size} height={size} viewBox="0 0 120 120">
-      {/* Foot pad — rounded teardrop */}
+      {/* Foot pad — open arc ~270° */}
       <AnimatedPath
         animatedProps={padProps}
-        d="M 60 82 C 43 82, 33 71, 33 58 C 33 45, 42 37, 53 35 C 56 34, 60 34, 64 35 C 75 37, 84 45, 84 58 C 84 71, 74 82, 60 82 Z"
+        d="M 60 82 C 43 82, 33 71, 33 58 C 33 45, 42 37, 53 35 C 56 34, 60 34, 64 35 C 75 37, 84 45, 84 58 C 84 71, 74 82, 60 82"
         fill="none"
         stroke={c.primary}
         strokeWidth={3}
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeDasharray={PAD_LEN}
+        strokeDasharray={`${PAD_DRAW} 40`}
       />
-
       {/* Toe 1 — left */}
-      <AnimatedCircle
-        animatedProps={toe1Props}
+      <AnimatedCircle animatedProps={t1Props}
         cx={46} cy={28} r={4.5}
-        fill="none"
-        stroke={c.primary}
-        strokeWidth={2.5}
-        strokeDasharray={TOE_LEN}
+        fill="none" stroke={c.primary} strokeWidth={2.5}
+        strokeDasharray={TOE_C}
       />
-
-      {/* Toe 2 — middle (accent blue) */}
-      <AnimatedCircle
-        animatedProps={toe2Props}
+      {/* Toe 2 — middle accent */}
+      <AnimatedCircle animatedProps={t2Props}
         cx={57} cy={24} r={4.5}
-        fill="none"
-        stroke={c.accent}
-        strokeWidth={2.5}
-        strokeDasharray={TOE_LEN}
+        fill="none" stroke={c.accent} strokeWidth={2.5}
+        strokeDasharray={TOE_C}
       />
-
       {/* Toe 3 — right */}
-      <AnimatedCircle
-        animatedProps={toe3Props}
+      <AnimatedCircle animatedProps={t3Props}
         cx={68} cy={26} r={4.5}
-        fill="none"
-        stroke={c.primary}
-        strokeWidth={2.5}
-        strokeDasharray={TOE_LEN}
+        fill="none" stroke={c.primary} strokeWidth={2.5}
+        strokeDasharray={TOE_C}
       />
-
       {/* Toe 4 — pinky */}
-      <AnimatedCircle
-        animatedProps={pinkyProps}
+      <AnimatedCircle animatedProps={t4Props}
         cx={78} cy={33} r={3.5}
-        fill="none"
-        stroke={c.primary}
-        strokeWidth={2}
-        strokeDasharray={PINKY_LEN}
+        fill="none" stroke={c.primary} strokeWidth={2}
+        strokeDasharray={PINKY_C}
       />
     </Svg>
   );
