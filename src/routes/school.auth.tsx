@@ -8,8 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { FundaLogo } from "@/components/funda/Logo";
+import { BarefootLoader } from "@/components/funda/BarefootLoader";
 import { toast } from "sonner";
-import { Loader2, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 import { friendlyAuthError } from "@/lib/auth-errors";
 
@@ -76,16 +77,19 @@ function SchoolAuth() {
       <div className="hidden lg:flex bg-primary text-primary-foreground p-12 flex-col justify-between relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "24px 24px" }} />
         <FundaLogo light />
-        <div className="relative">
-          <div className="inline-flex items-center gap-2 rounded-full bg-accent/15 border border-accent/30 px-3 py-1 text-xs text-accent mb-4">
-            <ShieldCheck className="size-3.5" /> Staff portal
+        <div className="relative flex flex-col items-center gap-8">
+          <BarefootLoader size={140} theme="dark" />
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-accent/15 border border-accent/30 px-3 py-1 text-xs text-accent mb-4">
+              <ShieldCheck className="size-3.5" /> Staff portal
+            </div>
+            <h2 className="text-3xl font-bold leading-tight">
+              For teachers, principals & school admins.
+            </h2>
+            <p className="mt-4 text-primary-foreground/70 max-w-sm">
+              Capture marks, take roll-call, manage discipline and run your school from one place.
+            </p>
           </div>
-          <h2 className="text-3xl font-bold leading-tight">
-            For teachers, principals & school admins.
-          </h2>
-          <p className="mt-4 text-primary-foreground/70 max-w-sm">
-            Capture marks, take roll-call, manage discipline and run your school from one place.
-          </p>
         </div>
         <div className="text-xs text-primary-foreground/50">© PASA · Made for South Africa</div>
       </div>
@@ -107,7 +111,7 @@ function SchoolAuth() {
               <Input id="sp" name="password" type="password" required autoComplete="current-password" />
             </div>
             <Button disabled={loading} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-              {loading ? <Loader2 className="size-4 animate-spin" /> : "Sign in"}
+              {loading ? <BarefootLoader size={22} theme="light" /> : "Sign in"}
             </Button>
           </form>
           <div className="mt-6 rounded-lg border border-border/60 bg-muted/40 p-3 text-xs text-muted-foreground">
