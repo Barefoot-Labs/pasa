@@ -18,7 +18,7 @@ interface AuthCtx {
     full_name: string | null;
     avatar_url: string | null;
     subscription_tier: 'free' | 'premium';
-    phone?: string | null;
+    city?: string | null;
   } | null;
   refresh: () => Promise<void>;
   signOut: () => Promise<void>;
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     fetchedUid.current = uid;
     const [{ data: roleRows }, { data: prof }] = await Promise.all([
       supabase.from('user_roles').select('role, school_id').eq('user_id', uid),
-      supabase.from('profiles').select('full_name, avatar_url, subscription_tier, phone').eq('id', uid).maybeSingle(),
+      supabase.from('profiles').select('full_name, avatar_url, subscription_tier, city').eq('id', uid).maybeSingle(),
     ]);
     setRoles((roleRows ?? []) as RoleRow[]);
     setProfile(prof as AuthCtx['profile']);

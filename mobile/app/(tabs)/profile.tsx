@@ -9,8 +9,12 @@ export default function ProfileScreen() {
   const { user, profile, primaryRole, displayName, refresh, signOut } = useAuth();
   const [editingProfile, setEditingProfile] = useState(false);
   const [editingPassword, setEditingPassword] = useState(false);
-  const [fullName, setFullName] = useState(profile?.full_name ?? "");
-  const [phone, setPhone] = useState(profile?.phone ?? "");
+
+  // Profile form state — split name + location
+  const [firstName, setFirstName] = useState((profile as any)?.first_name ?? profile?.full_name?.split(" ")[0] ?? "");
+  const [lastName, setLastName]   = useState((profile as any)?.last_name  ?? profile?.full_name?.split(" ").slice(1).join(" ") ?? "");
+  const [location, setLocation]   = useState((profile as any)?.city ?? "");
+
   const [currentPw, setCurrentPw] = useState("");
   const [newPw, setNewPw] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
@@ -23,9 +27,14 @@ export default function ProfileScreen() {
   const roleLabel = primaryRole.replace(/_/g, " ");
 
   const onSaveProfile = async () => {
-    if (!fullName.trim() || fullName.trim().length < 2) { Alert.alert("Name must be at least 2 characters"); return; }
+    if (!firstName.trim()) { Alert.alert("Enter your first name"); return; }
+    if (!lastName.trim())  { Alert.alert("Enter your last name"); return; }
     setSavingProfile(true);
-    const { error } = await supabase.from("profiles").update({ full_name: fullName.trim(), phone: phone.trim() || null }).eq("id", user!.id);
+    const fullName = `${firstName.trim()} ${lastName.trim()}`.trim();
+    const { error } = await supabase.from("profiles").update({
+      full_name: fullName,
+      city: location.trim() || null,
+    } as any).eq("id", user!.id);
     setSavingProfile(false);
     if (error) { Alert.alert("Error", "Could not update profile."); return; }
     await refresh();
@@ -69,17 +78,37 @@ export default function ProfileScreen() {
           <View style={s.cardHeader}>
             <Text style={s.cardTitle}>Personal details</Text>
             {!editingProfile && (
-              <TouchableOpacity onPress={() => { setFullName(profile?.full_name ?? ""); setPhone(profile?.phone ?? ""); setEditingProfile(true); }}>
+              <TouchableOpacity onPress={() => {
+                setFirstName((profile as any)?.first_name ?? profile?.full_name?.split(" ")[0] ?? "");
+                setLastName((profile as any)?.last_name ?? profile?.full_name?.split(" ").slice(1).join(" ") ?? "");
+                setLocation((profile as any)?.city ?? "");
+                setEditingProfile(true);
+              }}>
                 <Ionicons name="pencil" size={16} color="#38bdf8" />
               </TouchableOpacity>
             )}
           </View>
           {editingProfile ? (
             <View style={s.form}>
-              <Text style={s.label}>Full name</Text>
-              <TextInput style={s.input} value={fullName} onChangeText={setFullName} autoFocus />
-              <Text style={s.label}>Phone (optional)</Text>
-              <TextInput style={s.input} value={phone} onChangeText={setPhone} keyboardType="phone-pad" placeholder="+27 82 000 0000" placeholderTextColor="#475569" />
+              <View style={s.nameRow}>
+                <View style={s.nameField}>
+                  <Text style={s.label}>First name</Text>
+                  <TextInput style={s.input} value={firstName} onChangeText={setFirstName} autoFocus placeholder="Sipho" placeholderTextColor="#475569" />
+                </View>
+                <View style={s.nameField}>
+                  <Text style={s.label}>Last name</Text>
+                  <TextInput style={s.input} value={lastName} onChangeText={setLastName} placeholder="Dlamini" placeholderTextColor="#475569" />
+                </View>
+              </View>
+              <Text style={s.label}>Location <Text style={s.labelOptional}>(optional)</Text></Text>
+              <TextInput
+                style={s.input}
+                value={location}
+                onChangeText={setLocation}
+                placeholder="e.g. Soweto, Gauteng"
+                placeholderTextColor="#475569"
+                maxLength={150}
+              />
               <View style={s.formBtns}>
                 <TouchableOpacity style={[s.saveBtn, savingProfile && s.saveBtnDisabled]} onPress={onSaveProfile} disabled={savingProfile}>
                   {savingProfile ? <ActivityIndicator size="small" color="#0f172a" /> : <Text style={s.saveBtnText}>Save</Text>}
@@ -95,7 +124,7 @@ export default function ProfileScreen() {
               <View style={s.divider} />
               <View style={s.row}><Text style={s.rowLabel}>Email</Text><Text style={s.rowValue} numberOfLines={1}>{user?.email ?? "—"}</Text></View>
               <View style={s.divider} />
-              <View style={s.row}><Text style={s.rowLabel}>Phone</Text><Text style={s.rowValue}>{profile?.phone ?? "—"}</Text></View>
+              <View style={s.row}><Text style={s.rowLabel}>Location</Text><Text style={s.rowValue}>{(profile as any)?.city ?? "—"}</Text></View>
               <View style={s.divider} />
               <View style={s.row}><Text style={s.rowLabel}>Role</Text><View style={s.rolePill}><Text style={s.rolePillText}>{roleLabel}</Text></View></View>
             </View>
@@ -174,7 +203,10 @@ const s = StyleSheet.create({
   rolePill:          { backgroundColor: "#1e3a5f", borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
   rolePillText:      { color: "#60a5fa", fontSize: 12, fontWeight: "600", textTransform: "capitalize" },
   form:              { gap: 4 },
+  nameRow:           { flexDirection: "row", gap: 10 },
+  nameField:         { flex: 1 },
   label:             { fontSize: 13, fontWeight: "600", color: "#94a3b8", marginTop: 10, marginBottom: 4 },
+  labelOptional:     { fontSize: 11, fontWeight: "400", color: "#475569" },
   input:             { backgroundColor: "#0f172a", borderWidth: 1, borderColor: "#334155", borderRadius: 10, paddingHorizontal: 14, paddingVertical: 11, fontSize: 14, color: "#f1f5f9" },
   pwWrap:            { flexDirection: "row", alignItems: "center", gap: 4 },
   eyeBtn:            { padding: 8 },
