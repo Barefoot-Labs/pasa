@@ -17,8 +17,7 @@ import { friendlyAuthError } from "@/lib/auth-errors";
 import { usePushNotifications } from "@/hooks/use-push-notifications";
 
 export const Route = createFileRoute("/app/profile")({
-  component: ProfilePage,
-  head: () => ({ meta: [{ title: "Profile & settings · PASA" }] }),
+  component: ProfilePage
 });
 
 const profileSchema = z.object({
@@ -369,3 +368,4 @@ function ToggleVisibility({ show, onToggle }: { show: boolean; onToggle: () => v
     </Button>
   );
 }
+

@@ -281,3 +281,4 @@ function SchoolEditPage() {
     </div>
   );
 }
+

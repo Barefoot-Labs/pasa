@@ -6,8 +6,7 @@ import { FundaLogo } from "@/components/funda/Logo";
 import { Building2, Map, Users, LayoutDashboard, LogOut, ArrowLeft, Settings, Trophy } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
-  component: AdminLayout,
-  head: () => ({ meta: [{ title: "PASA Admin Console" }] }),
+  component: AdminLayout
 });
 
 const items = [
@@ -91,3 +90,4 @@ function AdminLayout() {
     </div>
   );
 }
+

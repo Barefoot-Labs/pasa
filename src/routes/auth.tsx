@@ -15,8 +15,7 @@ import { Loader2 } from "lucide-react";
 import { friendlyAuthError } from "@/lib/auth-errors";
 
 export const Route = createFileRoute("/auth")({
-  component: AuthPage,
-  head: () => ({ meta: [{ title: "Sign in · PASA" }] }),
+  component: AuthPage
 });
 
 const signInSchema = z.object({
@@ -244,3 +243,4 @@ function AuthPage() {
     </div>
   );
 }
+

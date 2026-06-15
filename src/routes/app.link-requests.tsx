@@ -4,3 +4,4 @@ import { LinkRequestsPage } from "@/components/funda/dashboards/LinkRequestsPage
 export const Route = createFileRoute("/app/link-requests")({
   component: LinkRequestsPage,
 });
+

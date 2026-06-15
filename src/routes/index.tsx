@@ -5,13 +5,7 @@ import { Card } from "@/components/ui/card";
 import { ArrowRight, BookOpen, Users, Shield, Bell, GraduationCap, MapPin, TrendingUp, MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/")({
-  component: Landing,
-  head: () => ({
-    meta: [
-      { title: "PASA — School Management for South Africa" },
-      { name: "description", content: "The home–school bridge for South African families. Marks, attendance, discipline, school transfers — all in one app." },
-    ],
-  }),
+  component: Landing
 });
 
 function Stat({ value, label }: { value: string; label: string }) {
@@ -131,3 +125,4 @@ function Landing() {
     </div>
   );
 }
+

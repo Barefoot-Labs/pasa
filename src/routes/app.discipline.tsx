@@ -29,3 +29,4 @@ export const Route = createFileRoute("/app/discipline")({
     ]}
   />,
 });
+

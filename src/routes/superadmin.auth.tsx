@@ -13,8 +13,7 @@ import { Loader2, ShieldAlert } from "lucide-react";
 import { friendlyAuthError } from "@/lib/auth-errors";
 
 export const Route = createFileRoute("/superadmin/auth")({
-  component: AdminAuth,
-  head: () => ({ meta: [{ title: "Admin · PASA" }] }),
+  component: AdminAuth
 });
 
 const schema = z.object({
@@ -106,3 +105,4 @@ function AdminAuth() {
     </div>
   );
 }
+

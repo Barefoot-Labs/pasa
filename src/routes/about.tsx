@@ -2,8 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PublicHeader } from "@/components/funda/PublicHeader";
 
 export const Route = createFileRoute("/about")({
-  component: About,
-  head: () => ({ meta: [{ title: "About PASA — South African School Management" }, { name: "description", content: "Why we built PASA: every parent and every school in one app, focused on the South African education system." }]}),
+  component: About
 });
 
 function About() {
@@ -29,3 +28,4 @@ function About() {
     </div>
   );
 }
+

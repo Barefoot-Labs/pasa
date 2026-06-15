@@ -9,13 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { MapPin, Search, Users, GraduationCap } from "lucide-react";
 
 export const Route = createFileRoute("/schools")({
-  component: SchoolsPage,
-  head: () => ({
-    meta: [
-      { title: "Find a school — PASA" },
-      { name: "description", content: "Search South African schools by district, phase, type and fees. EMIS-verified school profiles." },
-    ],
-  }),
+  component: SchoolsPage
 });
 
 interface School {
@@ -144,3 +138,4 @@ function SchoolsPage() {
     </div>
   );
 }
+

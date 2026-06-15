@@ -4,3 +4,4 @@ import { DisciplinePage } from "@/components/funda/dashboards/DisciplinePage";
 export const Route = createFileRoute("/app/discipline-school")({
   component: DisciplinePage,
 });
+

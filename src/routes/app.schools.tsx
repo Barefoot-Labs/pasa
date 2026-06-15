@@ -277,3 +277,4 @@ function SchoolExplorerPage() {
     </div>
   );
 }
+

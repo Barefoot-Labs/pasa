@@ -4,3 +4,4 @@ import { AttendanceCapturePage } from "@/components/funda/dashboards/AttendanceC
 export const Route = createFileRoute("/app/attendance-capture")({
   component: AttendanceCapturePage,
 });
+

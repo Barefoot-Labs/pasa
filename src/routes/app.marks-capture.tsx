@@ -4,3 +4,4 @@ import { ReportCardUploadPage } from "@/components/funda/dashboards/ReportCardUp
 export const Route = createFileRoute("/app/marks-capture")({
   component: ReportCardUploadPage,
 });
+

@@ -4,3 +4,4 @@ import { ExamTimetablePage } from "@/components/funda/dashboards/ExamTimetablePa
 export const Route = createFileRoute("/app/exam-timetable")({
   component: ExamTimetablePage,
 });
+

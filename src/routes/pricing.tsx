@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 
 export const Route = createFileRoute("/pricing")({
-  component: Pricing,
-  head: () => ({ meta: [{ title: "Pricing — PASA" }, { name: "description", content: "Free for parents. Premium R19.99/month adds unlimited children, instant alerts and downloadable reports." }]}),
+  component: Pricing
 });
 
 function Tier({ name, price, items, cta, highlight }: any) {
@@ -56,3 +55,4 @@ function Pricing() {
     </div>
   );
 }
+

@@ -11,8 +11,7 @@ import { Loader2, CheckCircle2, ArrowLeft } from "lucide-react";
 import { friendlyAuthError } from "@/lib/auth-errors";
 
 export const Route = createFileRoute("/reset-password")({
-  component: ResetPasswordPage,
-  head: () => ({ meta: [{ title: "Reset password · PASA" }] }),
+  component: ResetPasswordPage
 });
 
 function ResetPasswordPage() {
@@ -169,3 +168,4 @@ function ResetPasswordPage() {
     </div>
   );
 }
+

@@ -15,8 +15,7 @@ import { ShieldCheck } from "lucide-react";
 import { friendlyAuthError } from "@/lib/auth-errors";
 
 export const Route = createFileRoute("/school/auth")({
-  component: SchoolAuth,
-  head: () => ({ meta: [{ title: "School staff sign in · PASA" }] }),
+  component: SchoolAuth
 });
 
 const schema = z.object({
@@ -127,3 +126,4 @@ function SchoolAuth() {
     </div>
   );
 }
+

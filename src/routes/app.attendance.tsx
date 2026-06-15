@@ -28,3 +28,4 @@ export const Route = createFileRoute("/app/attendance")({
     ]}
   />,
 });
+

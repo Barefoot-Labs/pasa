@@ -48,3 +48,4 @@ export const Route = createFileRoute("/app/assistant")({
     );
   },
 });
+

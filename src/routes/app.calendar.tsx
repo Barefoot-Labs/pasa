@@ -570,3 +570,4 @@ function EventCard({ event }: { event: CalEvent }) {
     </Card>
   );
 }
+
